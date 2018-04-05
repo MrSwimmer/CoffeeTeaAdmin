@@ -44,22 +44,19 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityView> {
 
     private void selectDrawerItem(MenuItem menuItem) {
         switch(menuItem.getItemId()) {
-            case R.id.nav_catalog_fragment:
-                router.replaceScreen(Screens.CATALOG_SCREEN);
+            case R.id.nav_add_prod:
+                router.replaceScreen(Screens.CHOOSE_PROD);
                 break;
-            case R.id.nav_sale_fragment:
-                router.replaceScreen(Screens.SALE_SCREEN);
+            case R.id.nav_new_prod:
+                router.replaceScreen(Screens.NEW_PROD);
                 break;
-            case R.id.nav_basket_fragment:
-                router.replaceScreen(Screens.BASKET_SCREEN);
+            case R.id.nav_new_shop:
+                router.replaceScreen(Screens.ADD_SHOP);
                 break;
-            case R.id.nav_shops_fragment:
-                router.replaceScreen(Screens.SHOP_SCREEN);
+            case R.id.nav_give_prod:
+                router.replaceScreen(Screens.GIVE_PROD_SCREEN);
                 break;
-            case R.id.nav_orders_fragment:
-                router.replaceScreen(Screens.ORDERS_SCREEN);
-                break;
-            case R.id.nav_settings_fragment:
+            case R.id.nav_settings:
                 router.replaceScreen(Screens.SETTINGS_SCREEN);
                 break;
             default:

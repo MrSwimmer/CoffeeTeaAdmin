@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.mrswimmer.coffeeteaadmin.App;
 import com.mrswimmer.coffeeteaadmin.R;
+import com.mrswimmer.coffeeteaadmin.data.model.Availability;
 import com.mrswimmer.coffeeteaadmin.data.model.Product;
 import com.mrswimmer.coffeeteaadmin.data.settings.Screens;
 import com.mrswimmer.coffeeteaadmin.di.qualifier.Local;
@@ -23,10 +24,12 @@ import ru.terrakok.cicerone.Router;
 public class ProductsAdapter extends RecyclerView.Adapter<ProductsViewHolder> {
     private ArrayList<Product> products = new ArrayList<>();
     private Context context;
+    public static String prodId;
 
     @Inject
     @Local
     Router localRouter;
+
 
     public ProductsAdapter(ArrayList<Product> products, Context context) {
         this.products = products;
@@ -53,7 +56,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsViewHolder> {
         Picasso.with(context)
                 .load(product.getImages().get(0))
                 .into(holder.image);
-        holder.itemView.setOnClickListener(v -> localRouter.navigateTo(Screens.PRODUCT_SCREEN, product.getId()));
+        holder.itemView.setOnClickListener(v -> {
+            prodId = product.getId();
+            localRouter.navigateTo(Screens.CHOOSE_SHOP);
+        });
         if (product.getNewCost() > 0) {
             holder.newCost.setText(product.getNewCostString());
             holder.cost.setPaintFlags(holder.cost.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

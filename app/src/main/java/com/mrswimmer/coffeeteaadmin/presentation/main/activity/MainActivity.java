@@ -56,9 +56,7 @@ public class MainActivity extends BaseActivity implements MainActivityView {
         drawerToggle = setupDrawerToggle();
         drawerLayout.addDrawerListener(drawerToggle);
         TextView username = headerLayout.findViewById(R.id.header_username);
-        ImageView share = headerLayout.findViewById(R.id.header_share);
         username.setText(settings.getString(Settings.USERNAME, "user"));
-        share.setOnClickListener(v -> presenter.share());
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {

@@ -34,7 +34,16 @@ public class Product {
         this.reviews = reviews;
     }
 
-
+    public Product(int newCost, int weight, String description, String name, int cost, int typeId, ArrayList<String> images, int kindId) {
+        this.newCost = newCost;
+        this.weight = weight;
+        this.description = description;
+        this.name = name;
+        this.cost = cost;
+        this.typeId = typeId;
+        this.images = images;
+        this.kindId = kindId;
+    }
 
     public int getWeight() {
         return weight;

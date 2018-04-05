@@ -29,4 +29,10 @@ public interface Screens {
     String SHARE ="share";
     String ABOUT_COMPANY = "about company";
     String INSTRUCTION = "instruction";
+    String ADD_PROD = "add prod";
+    String GIVE_PROD_SCREEN = "give prod";
+    String ADD_SHOP = "add shop";
+    String NEW_PROD = "new prod";
+    String CHOOSE_SHOP = "choose shop";
+    String CHOOSE_PROD = "choose prod";
 }

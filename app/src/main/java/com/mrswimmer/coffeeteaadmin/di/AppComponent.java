@@ -10,7 +10,12 @@ import com.mrswimmer.coffeeteaadmin.presentation.main.activity.MainActivity;
 import com.mrswimmer.coffeeteaadmin.presentation.main.activity.MainActivityPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.recycler.ProductsAdapter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.choose_count.ChooseCountDialog;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.filter.FilterFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.settings.SettingsFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.recycler.ShopAdapter;
 import com.mrswimmer.coffeeteaadmin.presentation.splash.SplashActivity;
 
 import javax.inject.Singleton;
@@ -37,4 +42,14 @@ public interface AppComponent {
     void inject(FilterFragmentPresenter filterFragmentPresenter);
 
     void inject(CatalogFragmentPresenter catalogFragmentPresenter);
+
+    void inject(ShopAdapter shopAdapter);
+
+    void inject(ShopFragmentPresenter shopFragmentPresenter);
+
+    void inject(SettingsFragmentPresenter settingsFragmentPresenter);
+
+    void inject(ChooseCountDialog chooseCountDialog);
+
+    void inject(NewProdFragmentPresenter newProdFragmentPresenter);
 }

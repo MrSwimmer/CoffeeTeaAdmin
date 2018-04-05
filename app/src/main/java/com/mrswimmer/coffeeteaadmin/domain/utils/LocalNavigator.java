@@ -8,6 +8,8 @@ import com.mrswimmer.coffeeteaadmin.data.settings.Screens;
 import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_in.SignInFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_up.SignUpFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragment;
 
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
@@ -34,8 +36,12 @@ public class LocalNavigator extends SupportFragmentNavigator {
 
     private Fragment mainFragments(String screenKey, Object data) {
         switch (screenKey) {
-            case Screens.CATALOG_SCREEN:
+            case Screens.CHOOSE_PROD:
                 return new CatalogFragment();
+            case Screens.CHOOSE_SHOP:
+                return new ShopFragment();
+            case Screens.NEW_PROD:
+                return new NewProdFragment();
             default:
                 return new CatalogFragment();
         }

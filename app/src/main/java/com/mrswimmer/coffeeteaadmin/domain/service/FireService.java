@@ -16,6 +16,7 @@ import com.mrswimmer.coffeeteaadmin.data.model.Review;
 import com.mrswimmer.coffeeteaadmin.data.model.Shop;
 import com.mrswimmer.coffeeteaadmin.data.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FireService {
@@ -143,6 +144,11 @@ public class FireService {
             @Override
             public void onError(Throwable e) {
                 Log.i("code", "restore error " + e.getMessage());
+                Availability availability = new Availability(product.getCount(), product.getShopId());
+                DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities");
+                ArrayList<Availability> list = new ArrayList<>();
+                list.add(availability);
+                avail.setValue(list);
             }
 
             @Override
@@ -186,6 +192,20 @@ public class FireService {
 
     public void signOut() {
         auth.signOut();
+    }
+
+    public void addProduct(String prodId, int countProd, String shopId) {
+        ProductInBasket productInBasket = new ProductInBasket();
+        productInBasket.setProductId(prodId);
+        productInBasket.setCount(countProd);
+        productInBasket.setShopId(shopId);
+        restoreProducts(productInBasket);
+    }
+
+    public void createProduct(Product product) {
+        DatabaseReference newProdref = reference.child("products").push();
+        product.setId(newProdref.getKey());
+        newProdref.setValue(product);
     }
 
     public interface UserCallBack {
