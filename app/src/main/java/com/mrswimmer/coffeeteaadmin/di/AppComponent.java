@@ -14,6 +14,8 @@ import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.choose_count.Choo
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.filter.FilterFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.OrderFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.recycler.ProductsInOrderAdapter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.settings.SettingsFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.recycler.ShopAdapter;
@@ -55,4 +57,8 @@ public interface AppComponent {
     void inject(NewProdFragmentPresenter newProdFragmentPresenter);
 
     void inject(GiveProdFragmentPresenter giveProdFragmentPresenter);
+
+    void inject(OrderFragmentPresenter orderFragmentPresenter);
+
+    void inject(ProductsInOrderAdapter productsInOrderAdapter);
 }

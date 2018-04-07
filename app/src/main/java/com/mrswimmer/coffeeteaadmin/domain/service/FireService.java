@@ -208,6 +208,16 @@ public class FireService {
                 .subscribe(callback::onSuccess, callback::onError);
     }
 
+    public void delProductFromOrder(Order order) {
+        DatabaseReference newOrder = reference.child("orders").child(order.getId());
+        newOrder.setValue(order);
+    }
+
+    public void delOrder(Order order) {
+        DatabaseReference newOrder = reference.child("orders").child(order.getId());
+        newOrder.removeValue();
+    }
+
     public interface UserCallBack {
         void onSuccess(User user);
 

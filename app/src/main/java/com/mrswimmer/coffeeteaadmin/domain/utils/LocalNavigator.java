@@ -10,6 +10,7 @@ import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_up.SignUpFra
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.OrderFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragment;
 
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
@@ -45,6 +46,8 @@ public class LocalNavigator extends SupportFragmentNavigator {
                 return new NewProdFragment();
             case Screens.GIVE_PROD_SCREEN:
                 return new GiveProdFragment();
+            case Screens.BASKET_OF_ORDER_SCREEN:
+                return new OrderFragment();
             default:
                 return new CatalogFragment();
         }

@@ -1,4 +1,4 @@
-package com.mrswimmer.coffeeteaadmin.presentation.main.fragment.basket.recycler;
+package com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,9 +6,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.mrswimmer.coffeetea.R;
+import com.mrswimmer.coffeeteaadmin.R;
 
-public class ProductsInBasketViewHolder extends RecyclerView.ViewHolder {
+public class ProductsInOrderViewHolder extends RecyclerView.ViewHolder {
 
     TextView name;
     TextView city;
@@ -18,10 +18,8 @@ public class ProductsInBasketViewHolder extends RecyclerView.ViewHolder {
     TextView newCost;
     ImageView delete;
     ImageView image;
-    ImageView up;
-    ImageView down;
     RatingBar ratingBar;
-    public ProductsInBasketViewHolder(View v) {
+    public ProductsInOrderViewHolder(View v) {
         super(v);
         name = v.findViewById(R.id.item_basket_name);
         image = v.findViewById(R.id.item_basket_image);
