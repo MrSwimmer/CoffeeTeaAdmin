@@ -8,6 +8,7 @@ import com.mrswimmer.coffeeteaadmin.data.settings.Screens;
 import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_in.SignInFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_up.SignUpFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragment;
 
@@ -42,6 +43,8 @@ public class LocalNavigator extends SupportFragmentNavigator {
                 return new ShopFragment();
             case Screens.NEW_PROD:
                 return new NewProdFragment();
+            case Screens.GIVE_PROD_SCREEN:
+                return new GiveProdFragment();
             default:
                 return new CatalogFragment();
         }

@@ -172,11 +172,6 @@ public class FireService {
         dref.setValue(order);
     }
 
-    public void getOrders(String userId, OrdersCallback callback) {
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child("orders").child(userId), DataSnapshotMapper.listOf(Order.class))
-                .subscribe(callback::onSuccess, callback::onError);
-    }
-
     public void getBasketOfOrders(String userId, String orderId, BasketCallback callback) {
         RxFirebaseDatabase.observeSingleValueEvent(reference.child("orders").child(userId).child(orderId).child("products"), DataSnapshotMapper.listOf(ProductInBasket.class))
                 .subscribe(callback::onSuccess, callback::onError);
@@ -206,6 +201,11 @@ public class FireService {
         DatabaseReference newProdref = reference.child("products").push();
         product.setId(newProdref.getKey());
         newProdref.setValue(product);
+    }
+
+    public void getOrderById(String orderId, OrderCallback callback) {
+        RxFirebaseDatabase.observeSingleValueEvent(reference.child("orders").child(orderId), Order.class)
+                .subscribe(callback::onSuccess, callback::onError);
     }
 
     public interface UserCallBack {
@@ -264,6 +264,12 @@ public class FireService {
 
     public interface OrdersCallback {
         void onSuccess(List<Order> orders);
+
+        void onError(Throwable e);
+    }
+
+    public interface OrderCallback {
+        void onSuccess(Order order);
 
         void onError(Throwable e);
     }
