@@ -2,6 +2,7 @@ package com.mrswimmer.coffeeteaadmin.domain.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
@@ -39,6 +40,11 @@ public class GlobalNavigator implements Navigator {
                     Intent i = new Intent(activity, MainActivity.class);
                     activity.startActivity(i);
                     activity.finish();
+                    break;
+                case Screens.SET_MARK_IN_GOOGLE_PLAY:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("market://details?id=com.mrswimmer.coffeetea"));
+                    activity.startActivity(intent);
                     break;
             }
         }

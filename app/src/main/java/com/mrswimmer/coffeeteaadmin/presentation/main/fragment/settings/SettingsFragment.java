@@ -43,6 +43,7 @@ public class SettingsFragment extends BaseFragment implements SettingsFragmentVi
     void onAboutCompanyClick() {
         presenter.gotoAboutCompany();
     }
+
     @OnClick(R.id.settings_instruction)
     void onInstructionClick() {
         presenter.gotoInstruction();
