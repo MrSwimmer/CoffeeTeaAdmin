@@ -1,29 +1,32 @@
 package com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_shop;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.RadioButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.mrswimmer.coffeeteaadmin.R;
-import com.mrswimmer.coffeeteaadmin.data.model.Product;
+import com.mrswimmer.coffeeteaadmin.data.model.Shop;
 import com.mrswimmer.coffeeteaadmin.data.settings.Settings;
 import com.mrswimmer.coffeeteaadmin.presentation.base.BaseFragment;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
+
 public class NewShopFragment extends BaseFragment implements NewShopFragmentView {
+
+    Uri selectedImage = null;
 
     @InjectPresenter
     NewShopFragmentPresenter presenter;
@@ -33,75 +36,73 @@ public class NewShopFragment extends BaseFragment implements NewShopFragmentView
         return new NewShopFragmentPresenter();
     }
 
-    @BindView(R.id.new_prod_name)
-    TextView name;
-    @BindView(R.id.new_prod_cost)
-    TextView cost;
-    @BindView(R.id.new_prod_new_cost)
-    TextView newCost;
-    @BindView(R.id.new_prod_weight)
-    TextView weight;
-    @BindView(R.id.new_prod_decription)
-    TextView description;
-    @BindView(R.id.radioCoffee)
-    RadioButton radioCoffee;
-    @BindView(R.id.radioTea)
-    RadioButton radioTea;
-    @BindView(R.id.new_prod_spinner)
+    @BindView(R.id.new_shop_adress)
+    EditText adress;
+    @BindView(R.id.new_shop_begin_work)
+    EditText beginWork;
+    @BindView(R.id.new_shop_end_work)
+    EditText endWork;
+    @BindView(R.id.new_shop_city_spinner)
     Spinner spinner;
-    @BindView(R.id.new_prod_add_shop_button)
-    Button addShop;
+    @BindView(R.id.new_shop_image)
+    ImageView imageView;
+    @BindView(R.id.new_shop_choose_photo)
+    Button choosePhoto;
+    @BindView(R.id.new_shop_create)
+    Button create;
 
-    String sName, sDecription;
-    int sCost, sNewCost, sWeight, sTypeId, sKind;
+    String sAdress;
+    int sBeginWork, sEndWork;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.sign_up_spinner_item, Settings.coffeKinds);
+        SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.sign_up_spinner_item, Settings.cities);
         presenter.setKindsSpinner(spinner, adapter);
     }
 
-    @OnCheckedChanged(R.id.radioCoffee)
-    void onRadioChanged() {
-        String[] mas;
-        if (radioCoffee.isChecked())
-            mas = Settings.coffeKinds;
-        else
-            mas = Settings.teaKinds;
-        SpinnerAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.sign_up_spinner_item, mas);
-        presenter.setKindsSpinner(spinner, adapter);
+    @OnClick(R.id.new_shop_choose_photo)
+    void onChoosePhoto() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, Settings.GALLERY_REQUEST);
     }
 
-    @OnClick(R.id.new_prod_add_shop_button)
-    void onAddShopButtonClick() {
-        sName = name.getText().toString();
-        sCost = Integer.parseInt(cost.getText().toString());
-        sNewCost = Integer.parseInt(newCost.getText().toString());
-        sWeight = Integer.parseInt(weight.getText().toString());
-        sDecription = description.getText().toString();
-        sTypeId = radioCoffee.isChecked() ? 0 : 1;
-        sKind = spinner.getSelectedItemPosition();
+    @OnClick(R.id.new_shop_create)
+    void onCreateShop() {
+        sAdress = adress.getText().toString();
+        sBeginWork = Integer.parseInt(beginWork.getText().toString());
+        sEndWork = Integer.parseInt(endWork.getText().toString());
         if (checkOnFillingFields()) {
-            String url = "http://provitaminki.com/wp-content/uploads/2015/05/81_20052-300x240.jpg";
-            ArrayList<String> images = new ArrayList<>();
-            images.add(url);
-            Product product = new Product(sNewCost, sWeight, sDecription, sName, sCost, sTypeId, images, sKind);
-            presenter.createProduct(product);
+            presenter.createShop(sAdress, sBeginWork, sEndWork, spinner.getSelectedItemPosition(), selectedImage);
         } else {
-            showToast("Заполните все поля");
+            showToast("Заполните все поля и выберите изображение");
         }
-
     }
 
     @Override
     protected int getLayoutID() {
-        return R.layout.fragment_new_prod;
+        return R.layout.fragment_new_shop;
     }
 
     boolean checkOnFillingFields() {
-        if (sName.equals("") || sCost == 0 || sWeight == 0 || sNewCost == 0 || sDecription.equals(""))
+        if (sAdress.equals("") || sBeginWork == 0 || sEndWork == 0 ||selectedImage.equals(null))
             return false;
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case Settings.GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    selectedImage = imageReturnedIntent.getData();
+                    choosePhoto.setText("Изменить фото");
+                    imageView.setVisibility(View.VISIBLE);
+                    imageView.setImageURI(selectedImage);
+                }
+        }
+
     }
 }

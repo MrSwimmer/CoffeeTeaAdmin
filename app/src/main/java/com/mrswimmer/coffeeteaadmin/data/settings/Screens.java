@@ -35,4 +35,6 @@ public interface Screens {
     String NEW_PROD = "new prod";
     String CHOOSE_SHOP = "choose shop";
     String CHOOSE_PROD = "choose prod";
+    String NEW_SHOP = "new shop";
+    String INFO_SCREEN = "info screen";
 }

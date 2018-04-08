@@ -12,7 +12,6 @@
         android:ems="10"
         android:hint="ID заказа"
         android:inputType="textPersonName"
-        android:text="-L9VjK3R8PTN04qsnDGo"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

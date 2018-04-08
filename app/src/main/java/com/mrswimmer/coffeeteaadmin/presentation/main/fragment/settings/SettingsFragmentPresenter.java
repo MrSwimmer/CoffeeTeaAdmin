@@ -61,10 +61,10 @@ public class SettingsFragmentPresenter extends MvpPresenter<SettingsFragmentView
     }
 
     public void gotoAboutCompany() {
-        localRouter.navigateTo(Screens.ABOUT_COMPANY, R.string.about_company);
+        localRouter.navigateTo(Screens.INFO_SCREEN, R.string.about_company);
     }
 
     public void gotoInstruction() {
-        localRouter.navigateTo(Screens.INSTRUCTION, R.string.instruction);
+        localRouter.navigateTo(Screens.INFO_SCREEN, R.string.instruction);
     }
 }

@@ -9,7 +9,9 @@ import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_in.SignInFra
 import com.mrswimmer.coffeeteaadmin.presentation.auth.fragment.sign_up.SignUpFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.info.InfoFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragment;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_shop.NewShopFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.OrderFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.settings.SettingsFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.shop.ShopFragment;
@@ -51,6 +53,14 @@ public class LocalNavigator extends SupportFragmentNavigator {
                 return new OrderFragment();
             case Screens.SETTINGS_SCREEN:
                 return new SettingsFragment();
+            case Screens.NEW_SHOP:
+                return new NewShopFragment();
+            case Screens.INFO_SCREEN:
+                Bundle infoBundle = new Bundle();
+                infoBundle.putInt("text", (Integer) data);
+                InfoFragment infoFragment = new InfoFragment();
+                infoFragment.setArguments(infoBundle);
+                return infoFragment;
             default:
                 return new CatalogFragment();
         }

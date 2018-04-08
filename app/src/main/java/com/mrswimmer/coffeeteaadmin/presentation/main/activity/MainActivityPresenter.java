@@ -51,7 +51,7 @@ public class MainActivityPresenter extends MvpPresenter<MainActivityView> {
                 router.replaceScreen(Screens.NEW_PROD);
                 break;
             case R.id.nav_new_shop:
-                router.replaceScreen(Screens.ADD_SHOP);
+                router.replaceScreen(Screens.NEW_SHOP);
                 break;
             case R.id.nav_give_prod:
                 router.replaceScreen(Screens.GIVE_PROD_SCREEN);

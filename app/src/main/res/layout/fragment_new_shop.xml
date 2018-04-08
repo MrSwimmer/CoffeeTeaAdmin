@@ -7,17 +7,19 @@
     android:background="@android:color/black">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/new_shop_create"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Выбрать фото"
+        android:background="@drawable/button_background_transparent"
+        android:text="Создать товар"
         app:layout_constraintEnd_toEndOf="@+id/new_shop_end_work"
-        app:layout_constraintStart_toStartOf="@+id/new_prod_city_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/new_shop_city_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/new_shop_choose_photo" />
 
     <Spinner
-        android:id="@+id/new_prod_city_spinner"
+        android:id="@+id/new_shop_city_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -65,12 +67,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/new_shop_choose_photo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@drawable/button_background_transparent"
         android:text="Выбрать фото"
         app:layout_constraintEnd_toEndOf="@+id/new_shop_end_work"
-        app:layout_constraintStart_toStartOf="@+id/new_prod_city_spinner"
-        app:layout_constraintTop_toBottomOf="@+id/new_prod_city_spinner" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/new_shop_city_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/new_shop_image" />
+
+    <ImageView
+        android:id="@+id/new_shop_image"
+        android:layout_width="200dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/new_shop_choose_photo"
+        app:layout_constraintStart_toStartOf="@+id/new_shop_choose_photo"
+        app:layout_constraintTop_toBottomOf="@+id/new_shop_city_spinner"
+        app:srcCompat="@color/common_google_signin_btn_text_dark_default" />
 </android.support.constraint.ConstraintLayout>

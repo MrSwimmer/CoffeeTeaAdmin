@@ -1,10 +1,17 @@
 package com.mrswimmer.coffeeteaadmin.domain.service;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kelvinapps.rxfirebase.DataSnapshotMapper;
 import com.kelvinapps.rxfirebase.RxFirebaseAuth;
 import com.kelvinapps.rxfirebase.RxFirebaseDatabase;
@@ -22,10 +29,12 @@ import java.util.List;
 public class FireService {
     private DatabaseReference reference;
     private FirebaseAuth auth;
+    private StorageReference storageReference;
 
     public FireService() {
         reference = FirebaseDatabase.getInstance().getReference();
         auth = FirebaseAuth.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     public void signIn(String email, String password, AuthCallBack callBack) {
@@ -178,7 +187,7 @@ public class FireService {
     }
 
     public void deleteOrder(String userId, Order order) {
-        for(int i=0; i<order.getProducts().size(); i++) {
+        for (int i = 0; i < order.getProducts().size(); i++) {
             restoreProducts(order.getProducts().get(i));
         }
         DatabaseReference or = reference.child("orders").child(userId).child(order.getId());
@@ -216,6 +225,25 @@ public class FireService {
     public void delOrder(Order order) {
         DatabaseReference newOrder = reference.child("orders").child(order.getId());
         newOrder.removeValue();
+    }
+
+    public void uploadShopImage(String sAdress, Uri selectedImage, UploadImageCallBack callBack) {
+        StorageReference shopsImages = storageReference.child("shops/" + sAdress + ".jpg");
+        shopsImages.putFile(selectedImage)
+                .addOnSuccessListener(callBack::onSuccess)
+                .addOnFailureListener(callBack::onError);
+    }
+
+    public void createShop(Shop shop) {
+        DatabaseReference newShop = reference.child("shops").push();
+        shop.setId(newShop.getKey());
+        newShop.setValue(shop);
+    }
+
+    public interface UploadImageCallBack {
+        void onSuccess(UploadTask.TaskSnapshot taskSnapshot);
+
+        void onError(Throwable e);
     }
 
     public interface UserCallBack {

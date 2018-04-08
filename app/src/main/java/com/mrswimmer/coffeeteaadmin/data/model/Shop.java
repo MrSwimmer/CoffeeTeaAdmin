@@ -12,16 +12,14 @@ public class Shop {
     ArrayList<Review> reviews = new ArrayList<>();
     String city;
 
-    public Shop(String id, String adress, int beginWork, int endWork, ArrayList<String> images, ArrayList<Review> reviews, String city, int rate) {
-        this.id = id;
+    public Shop(String adress, int beginWork, int endWork, ArrayList<String> images, String city) {
         this.adress = adress;
         this.beginWork = beginWork;
         this.endWork = endWork;
         this.images = images;
-        this.reviews = reviews;
         this.city = city;
-        this.rate = rate;
     }
+
 
     public Shop() {
     }
