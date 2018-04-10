@@ -20,6 +20,7 @@ import com.mrswimmer.coffeeteaadmin.domain.service.FilterService;
 import com.mrswimmer.coffeeteaadmin.domain.service.FireService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -105,7 +106,7 @@ public class FilterFragmentPresenter extends MvpPresenter<FilterFragmentView> {
             @Override
             public void onSuccess(List<Product> products) {
                 Log.i("code", "lenght " + products.size());
-                currentList = filterService.getFilteredProducts(type, sort, inStock, kinds, products);
+                //currentList = filterService.getFilteredProducts(type, sort, inStock, kinds, products);
                 Log.i("code", "cur size " + currentList.size());
                 /*getViewState().setResultOfFilter(readyList.size());
                 SharedPreferences.Editor editor = settings.edit();

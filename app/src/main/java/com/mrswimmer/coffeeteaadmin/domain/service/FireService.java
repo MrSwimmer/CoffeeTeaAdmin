@@ -24,6 +24,7 @@ import com.mrswimmer.coffeeteaadmin.data.model.Shop;
 import com.mrswimmer.coffeeteaadmin.data.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FireService {
@@ -153,21 +154,18 @@ public class FireService {
             @Override
             public void onError(Throwable e) {
                 Log.i("code", "restore error " + e.getMessage());
-                Availability availability = new Availability(product.getCount(), product.getShopId());
-                DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities");
-                ArrayList<Availability> list = new ArrayList<>();
-                list.add(availability);
-                avail.setValue(list);
+                DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities").push();
+                Availability availability = new Availability(product.getCount(), product.getShopId(), avail.getKey());
+                avail.setValue(availability);
             }
 
             @Override
             public void onSuccess(List<Availability> availabilities) {
-                Log.i("code", "restore suc");
+                Log.i("code", "restore suc " + availabilities.get(0).getId());
                 DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities").child(availabilities.get(0).getId()).child("quantity");
                 avail.setValue(availabilities.get(0).getQuantity() + product.getCount());
             }
         });
-        //DatabaseReference prod = reference.child("products").child(product.getProductId()).child("").child(id);
     }
 
     public void clearBasket(String userId) {
@@ -203,7 +201,37 @@ public class FireService {
         productInBasket.setProductId(prodId);
         productInBasket.setCount(countProd);
         productInBasket.setShopId(shopId);
-        restoreProducts(productInBasket);
+        //restoreProducts(productInBasket);
+        getAllAvails(prodId, new AvailabilityCallback() {
+            @Override
+            public void onError(Throwable e) {
+                Log.i("code", "all avails error " + e.getMessage());
+            }
+
+            @Override
+            public void onSuccess(List<Availability> availabilities) {
+                Log.i("code", "all avails " + availabilities.size());
+                boolean exist = false;
+                for (int i = 0; i < availabilities.size(); i++) {
+                    Availability availability = availabilities.get(i);
+                    if(availability.getShopId().equals(shopId)) {
+                        exist = true;
+                        availabilities.get(i).setQuantity(availability.getQuantity()+countProd);
+                        break;
+                    }
+                }
+                if (!exist) {
+                    availabilities.add(new Availability(countProd, shopId));
+                }
+                DatabaseReference avail = reference.child("products").child(prodId).child("availabilities");
+                avail.setValue(availabilities);
+            }
+        });
+    }
+
+    public void getAllAvails(String prodId, AvailabilityCallback callback) {
+        RxFirebaseDatabase.observeSingleValueEvent(reference.child("products").child(prodId).child("availabilities"), DataSnapshotMapper.listOf(Availability.class))
+                .subscribe(callback::onSuccess, callback::onError);
     }
 
     public void createProduct(Product product) {

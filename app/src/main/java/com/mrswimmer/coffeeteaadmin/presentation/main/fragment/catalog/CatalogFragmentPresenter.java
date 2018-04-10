@@ -15,6 +15,7 @@ import com.mrswimmer.coffeeteaadmin.domain.service.FireService;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.filter.FilterFragmentPresenter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
