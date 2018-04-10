@@ -1,10 +1,13 @@
 package com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -23,8 +26,10 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class NewProdFragment extends BaseFragment implements NewProdFragmentView {
+import static android.app.Activity.RESULT_OK;
 
+public class NewProdFragment extends BaseFragment implements NewProdFragmentView {
+    Uri selectedImage = null;
     @InjectPresenter
     NewProdFragmentPresenter presenter;
 
@@ -51,6 +56,10 @@ public class NewProdFragment extends BaseFragment implements NewProdFragmentView
     Spinner spinner;
     @BindView(R.id.new_prod_add_shop_button)
     Button addShop;
+    @BindView(R.id.new_prod_image)
+    ImageView imageView;
+    @BindView(R.id.new_prod_choose_photo)
+    Button choosePhoto;
 
     String sName, sDecription;
     int sCost, sNewCost, sWeight, sTypeId, sKind;
@@ -83,15 +92,20 @@ public class NewProdFragment extends BaseFragment implements NewProdFragmentView
         sTypeId = radioCoffee.isChecked() ? 0 : 1;
         sKind = spinner.getSelectedItemPosition();
         if (checkOnFillingFields()) {
-            String url = "http://provitaminki.com/wp-content/uploads/2015/05/81_20052-300x240.jpg";
             ArrayList<String> images = new ArrayList<>();
-            images.add(url);
             Product product = new Product(sNewCost, sWeight, sDecription, sName, sCost, sTypeId, images, sKind);
-            presenter.createProduct(product);
+            presenter.createProduct(product, selectedImage);
         } else {
             showToast("Заполните все поля");
         }
 
+    }
+
+    @OnClick(R.id.new_prod_choose_photo)
+    void onChoosePhoto() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, Settings.GALLERY_REQUEST);
     }
 
     @Override
@@ -100,8 +114,23 @@ public class NewProdFragment extends BaseFragment implements NewProdFragmentView
     }
 
     boolean checkOnFillingFields() {
-        if (sName.equals("") || sCost == 0 || sWeight == 0 || sNewCost == 0 || sDecription.equals(""))
+        if (sName.equals("") || sCost == 0 || sWeight == 0 || sNewCost == 0 || sDecription.equals("")||selectedImage.equals(null))
             return false;
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case Settings.GALLERY_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    selectedImage = imageReturnedIntent.getData();
+                    choosePhoto.setText("Изменить фото");
+                    imageView.setVisibility(View.VISIBLE);
+                    imageView.setImageURI(selectedImage);
+                }
+        }
+
     }
 }

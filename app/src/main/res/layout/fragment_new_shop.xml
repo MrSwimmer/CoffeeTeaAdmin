@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_background_transparent"
-        android:text="Создать товар"
+        android:text="Создать магазин"
         app:layout_constraintEnd_toEndOf="@+id/new_shop_end_work"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/new_shop_city_spinner"

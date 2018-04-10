@@ -1,6 +1,7 @@
 package com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.SpinnerAdapter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.google.firebase.storage.UploadTask;
 import com.mrswimmer.coffeeteaadmin.App;
 import com.mrswimmer.coffeeteaadmin.R;
 import com.mrswimmer.coffeeteaadmin.data.model.Product;
+import com.mrswimmer.coffeeteaadmin.data.model.Shop;
 import com.mrswimmer.coffeeteaadmin.data.settings.Screens;
 import com.mrswimmer.coffeeteaadmin.data.settings.Settings;
 import com.mrswimmer.coffeeteaadmin.di.qualifier.Local;
@@ -62,9 +65,24 @@ public class NewProdFragmentPresenter extends MvpPresenter<NewProdFragmentView> 
         });
     }
 
-    public void createProduct(Product product) {
-        fireService.createProduct(product);
-        getViewState().showDialog("Готово!", "Товар создан, теперь вы можете добавить его наличие в магазинах");
-        router.replaceScreen(Screens.ADD_PROD);
+    public void createProduct(Product product, Uri selectedImage) {
+        fireService.uploadProdImage(product.getName(), selectedImage, new FireService.UploadImageCallBack() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                ArrayList<String> images = new ArrayList<>();
+                images.add(String.valueOf(downloadUrl));
+                Log.i("code", "url " + downloadUrl);
+                product.setImages(images);
+                fireService.createProduct(product);
+                getViewState().showToast("Товар создан");
+                router.replaceScreen(Screens.NEW_PROD);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
     }
 }

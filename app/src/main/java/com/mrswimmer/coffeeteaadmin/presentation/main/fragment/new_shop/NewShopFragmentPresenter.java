@@ -74,7 +74,7 @@ public class NewShopFragmentPresenter extends MvpPresenter<NewShopFragmentView> 
                 Shop shop = new Shop(sAdress, sBeginWork, sEndWork, images, Settings.cities[selectedItemPosition]);
                 fireService.createShop(shop);
                 getViewState().showToast("Магазин создан");
-                router.navigateTo(Screens.NEW_PROD);
+                router.replaceScreen(Screens.NEW_PROD);
             }
 
             @Override

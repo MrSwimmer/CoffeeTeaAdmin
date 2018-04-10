@@ -57,24 +57,8 @@ public class FireService {
                 .subscribe(callback::onSuccess, callback::onError);
     }
 
-    public void getProduct(String id, ProductCallback callback) {
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child("products").child(id), Product.class)
-                .subscribe(callback::onSuccess, callback::onError);
-    }
-
     public boolean checkLogIn() {
         return null != auth.getCurrentUser();
-    }
-
-    public void getReviews(String id, boolean shop, ReviewsCallback callback) {
-        String dir;
-        if (shop) {
-            dir = "shops";
-        } else {
-            dir = "products";
-        }
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child(dir).child(id).child("reviews"), DataSnapshotMapper.listOf(Review.class))
-                .subscribe(callback::onSuccess, callback::onError);
     }
 
     public void getShops(ShopsCallback callback) {
@@ -89,28 +73,6 @@ public class FireService {
         else
             RxFirebaseDatabase.observeSingleValueEvent(reference.child("products"), DataSnapshotMapper.listOf(Product.class))
                     .subscribe(callback::onSuccess, callback::onError);
-    }
-
-    public void putProductInBasket(String userId, ProductInBasket productInBasket) {
-        DatabaseReference newProd = reference.child("users").child(userId).child("basket").push();
-        productInBasket.setId(newProd.getKey());
-        newProd.setValue(productInBasket);
-    }
-
-    public void getBasket(String userId, BasketCallback callback) {
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child("users").child(userId).child("basket"), DataSnapshotMapper.listOf(ProductInBasket.class))
-                .subscribe(callback::onSuccess, callback::onError);
-    }
-
-    //decision dupl problem
-    public void checkOnExistThisProductInBasket(String userId, ProductInBasket productInBasket, BasketCallback callback) {
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child("users").child(userId).child("basket").orderByChild("productId").equalTo(productInBasket.getProductId()), DataSnapshotMapper.listOf(ProductInBasket.class))
-                .subscribe(callback::onSuccess, callback::onError);
-    }
-
-    public void addInExistProductInBasket(String id, int count, String userId) {
-        DatabaseReference newProd = reference.child("users").child(userId).child("basket").child(id).child("count");
-        newProd.setValue(count);
     }
 
     public void getAvals(String prodId, String shopId, AvailabilityCallback callback) {
@@ -143,55 +105,6 @@ public class FireService {
         });
     }
 
-    public void delFromBasket(String userId, String id, ProductInBasket product) {
-        restoreProducts(product);
-        DatabaseReference prod = reference.child("users").child(userId).child("basket").child(id);
-        prod.removeValue();
-    }
-
-    public void restoreProducts(ProductInBasket product) {
-        getAvals(product.getProductId(), product.getShopId(), new AvailabilityCallback() {
-            @Override
-            public void onError(Throwable e) {
-                Log.i("code", "restore error " + e.getMessage());
-                DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities").push();
-                Availability availability = new Availability(product.getCount(), product.getShopId(), avail.getKey());
-                avail.setValue(availability);
-            }
-
-            @Override
-            public void onSuccess(List<Availability> availabilities) {
-                Log.i("code", "restore suc " + availabilities.get(0).getId());
-                DatabaseReference avail = reference.child("products").child(product.getProductId()).child("availabilities").child(availabilities.get(0).getId()).child("quantity");
-                avail.setValue(availabilities.get(0).getQuantity() + product.getCount());
-            }
-        });
-    }
-
-    public void clearBasket(String userId) {
-        DatabaseReference prod = reference.child("users").child(userId).child("basket");
-        prod.removeValue();
-    }
-
-    public void makeOrder(String userId, Order order) {
-        DatabaseReference dref = reference.child("orders").child(userId).push();
-        order.setId(dref.getKey());
-        dref.setValue(order);
-    }
-
-    public void getBasketOfOrders(String userId, String orderId, BasketCallback callback) {
-        RxFirebaseDatabase.observeSingleValueEvent(reference.child("orders").child(userId).child(orderId).child("products"), DataSnapshotMapper.listOf(ProductInBasket.class))
-                .subscribe(callback::onSuccess, callback::onError);
-    }
-
-    public void deleteOrder(String userId, Order order) {
-        for (int i = 0; i < order.getProducts().size(); i++) {
-            restoreProducts(order.getProducts().get(i));
-        }
-        DatabaseReference or = reference.child("orders").child(userId).child(order.getId());
-        or.removeValue();
-    }
-
     public void signOut() {
         auth.signOut();
     }
@@ -201,7 +114,6 @@ public class FireService {
         productInBasket.setProductId(prodId);
         productInBasket.setCount(countProd);
         productInBasket.setShopId(shopId);
-        //restoreProducts(productInBasket);
         getAllAvails(prodId, new AvailabilityCallback() {
             @Override
             public void onError(Throwable e) {
@@ -268,6 +180,13 @@ public class FireService {
         newShop.setValue(shop);
     }
 
+    public void uploadProdImage(String name, Uri selectedImage, UploadImageCallBack callBack) {
+        StorageReference shopsImages = storageReference.child("prods/" + name + ".jpg");
+        shopsImages.putFile(selectedImage)
+                .addOnSuccessListener(callBack::onSuccess)
+                .addOnFailureListener(callBack::onError);
+    }
+
     public interface UploadImageCallBack {
         void onSuccess(UploadTask.TaskSnapshot taskSnapshot);
 
@@ -292,26 +211,8 @@ public class FireService {
         void onError(Throwable e);
     }
 
-    public interface ProductCallback {
-        void onSuccess(Product product);
-
-        void onError(Throwable e);
-    }
-
-    public interface ReviewsCallback {
-        void onSuccess(List<Review> reviews);
-
-        void onError(Throwable e);
-    }
-
     public interface ShopsCallback {
         void onSuccess(List<Shop> shops);
-
-        void onError(Throwable e);
-    }
-
-    public interface ShopCallback {
-        void onSuccess(Shop shop);
 
         void onError(Throwable e);
     }
@@ -320,18 +221,6 @@ public class FireService {
         void onError(Throwable e);
 
         void onSuccess(List<Availability> availabilities);
-    }
-
-    public interface BasketCallback {
-        void onSuccess(List<ProductInBasket> products);
-
-        void onError(Throwable e);
-    }
-
-    public interface OrdersCallback {
-        void onSuccess(List<Order> orders);
-
-        void onError(Throwable e);
     }
 
     public interface OrderCallback {

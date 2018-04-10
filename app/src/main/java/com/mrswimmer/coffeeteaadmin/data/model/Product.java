@@ -45,6 +45,8 @@ public class Product {
         this.kindId = kindId;
     }
 
+
+
     public int getWeight() {
         return weight;
     }
