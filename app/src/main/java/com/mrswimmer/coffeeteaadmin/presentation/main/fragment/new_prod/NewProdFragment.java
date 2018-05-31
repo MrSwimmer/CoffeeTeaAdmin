@@ -114,7 +114,7 @@ public class NewProdFragment extends BaseFragment implements NewProdFragmentView
     }
 
     boolean checkOnFillingFields() {
-        if (sName.equals("") || sCost == 0 || sWeight == 0 || sNewCost == 0 || sDecription.equals("")||selectedImage.equals(null))
+        if (sName.equals("") || sCost == 0 || sWeight == 0 || sNewCost == 0 || sDecription.equals("") || selectedImage.equals(null))
             return false;
         return true;
     }

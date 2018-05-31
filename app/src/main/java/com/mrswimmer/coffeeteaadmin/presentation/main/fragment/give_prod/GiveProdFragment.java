@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -99,9 +100,12 @@ public class GiveProdFragment extends BaseFragment implements GiveProdFragmentVi
 
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
+                Log.i("code", "id " + contents);
+                presenter.findOrder(contents);
             }
             if(resultCode == RESULT_CANCELED){
                 //handle cancel
+                showToast("Нет такого заказа!");
             }
         }
     }
