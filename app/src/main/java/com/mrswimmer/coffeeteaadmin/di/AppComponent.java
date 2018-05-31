@@ -12,7 +12,9 @@ import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.CatalogFr
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.catalog.recycler.ProductsAdapter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.choose_count.ChooseCountDialog;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.filter.FilterFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragment;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.GiveProdFragmentPresenter;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.QRead;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_prod.NewProdFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.new_shop.NewShopFragmentPresenter;
 import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.order.OrderFragmentPresenter;
@@ -64,4 +66,8 @@ public interface AppComponent {
     void inject(ProductsInOrderAdapter productsInOrderAdapter);
 
     void inject(NewShopFragmentPresenter newShopFragmentPresenter);
+
+    void inject(QRead qRead);
+
+    void inject(GiveProdFragment giveProdFragment);
 }

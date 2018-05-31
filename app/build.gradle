@@ -47,6 +47,7 @@ dependencies {
     compile 'com.google.firebase:firebase-storage:12.0.0'
     compile 'com.kelvinapps:rxfirebase:0.0.15'
     compile 'com.android.support:design:26.1.0'
+    compile 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.2'
 }
 
 

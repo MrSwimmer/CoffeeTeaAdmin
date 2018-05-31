@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.mrswimmer.coffeeteaadmin.data.settings.Screens;
 import com.mrswimmer.coffeeteaadmin.presentation.auth.activity.AuthActivity;
 import com.mrswimmer.coffeeteaadmin.presentation.main.activity.MainActivity;
+import com.mrswimmer.coffeeteaadmin.presentation.main.fragment.give_prod.QRead;
 import com.mrswimmer.coffeeteaadmin.presentation.splash.intro.IntroActivity;
 
 import ru.terrakok.cicerone.Navigator;
@@ -45,6 +47,10 @@ public class GlobalNavigator implements Navigator {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("market://details?id=com.mrswimmer.coffeetea"));
                     activity.startActivity(intent);
+                    break;
+                case Screens.QR_READ_SCREEN:
+                    Intent intentqr = new Intent(activity, QRead.class);
+                    activity.startActivity(intentqr);
                     break;
             }
         }

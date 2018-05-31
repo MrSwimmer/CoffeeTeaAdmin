@@ -37,4 +37,5 @@ public interface Screens {
     String CHOOSE_PROD = "choose prod";
     String NEW_SHOP = "new shop";
     String INFO_SCREEN = "info screen";
+    String QR_READ_SCREEN = "qr read screen";
 }
