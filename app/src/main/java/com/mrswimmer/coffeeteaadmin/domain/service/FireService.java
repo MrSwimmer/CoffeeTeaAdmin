@@ -94,7 +94,6 @@ public class FireService {
                     avail = avail.child("quantity");
                     avail.setValue(availabilities.get(0).getQuantity() - count);
                 }
-
             }
 
             @Override
@@ -103,6 +102,9 @@ public class FireService {
             }
 
         });
+    }
+    public void deleteTypeProduct(String typeProdId){
+        reference.child("products").child(typeProdId).removeValue();
     }
 
     public void signOut() {

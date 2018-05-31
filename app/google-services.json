@@ -59,6 +59,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "605479046461-otahpe3frpsoprmopvjho519su442783.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mrswimmer.coffeeteaadmin",
+            "certificate_hash": "de7f5e85f3c3437764cf3ea275fda856924ae22a"
+          }
+        },
+        {
           "client_id": "605479046461-hehqmrhtodanj3g0g9i10rfoe05uno8c.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

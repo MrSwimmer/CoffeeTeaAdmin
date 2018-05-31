@@ -97,5 +97,4 @@ public class CatalogFragment extends BaseFragment implements CatalogFragmentView
         hideDropButton();
         presenter.dropFilters();
     }
-
 }

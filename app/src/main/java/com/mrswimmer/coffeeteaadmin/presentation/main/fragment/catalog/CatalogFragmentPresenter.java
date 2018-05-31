@@ -62,6 +62,7 @@ public class CatalogFragmentPresenter extends MvpPresenter<CatalogFragmentView> 
             @Override
             public void onSuccess(List<Product> products) {
                 Log.i("code", "set " + products.size());
+
                 for (int i = 0; i < products.size(); i++) {
                     productsForRecycler.add(products.get(i));
                 }
